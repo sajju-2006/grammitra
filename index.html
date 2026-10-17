@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GramMitra</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9efe6;--ink:#17261f;--mut:#5d6f65;--card:#fff;--line:#d3ddd0;--g:#1d5a3f;--g2:#2f7d58;--y:#f2b705;--r:#c4452f;--b:#2a5d8f;--shell:#0f1d16}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1a14;--ink:#e6efe8;--mut:#9bb0a3;--card:#18271f;--line:#2a3d33;--g:#4fb17f;--g2:#6fcb9a;--shell:#050a07}}
+:root[data-theme=light]{--bg:#e9efe6;--ink:#17261f;--mut:#5d6f65;--card:#fff;--line:#d3ddd0;--g:#1d5a3f;--g2:#2f7d58}
+:root[data-theme=dark]{--bg:#0f1a14;--ink:#e6efe8;--mut:#9bb0a3;--card:#18271f;--line:#2a3d33;--g:#4fb17f;--g2:#6fcb9a}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--shell);color:var(--ink);font:16px/1.45 'Noto Sans Kannada','Noto Sans Devanagari',system-ui,sans-serif;display:flex;justify-content:center;align-items:center}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#app{width:100%;max-width:420px;height:100%;max-height:860px;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+@media(min-width:460px){#app{border-radius:28px;height:min(860px,96%)}}
+h1,h2,h3,.hd{font-family:'Baloo 2','Noto Sans Kannada','Noto Sans Devanagari',sans-serif;line-height:1.1}
+header{padding:14px 18px 12px;background:var(--g);color:#fff;display:flex;align-items:center;gap:10px}
+header h1{font-size:24px;flex:1}
+header small{opacity:.8;display:block;font-size:12px;font-family:system-ui}
+.pill{background:rgba(255,255,255,.18);border:0;color:#fff;border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+main{flex:1;overflow:auto;padding:14px 16px 20px}
+nav{display:flex;background:var(--card);border-top:1px solid var(--line)}
+nav button{flex:1;border:0;background:none;padding:9px 2px 10px;color:var(--mut);font:inherit;font-size:11px;cursor:pointer}
+nav button b{display:block;font-size:20px;font-weight:400}
+nav button.on{color:var(--g);font-weight:600;box-shadow:inset 0 3px 0 var(--y)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:20px 20px 20px 6px;padding:14px;text-align:left;font:inherit;color:inherit;cursor:pointer;min-height:96px}
+.tile b{font-size:28px;display:block}
+.tile span{font-weight:600}
+.tile small{display:block;color:var(--mut);font-size:12px}
+.hero{background:var(--g);color:#fff;border-radius:22px;padding:18px;margin-bottom:12px}
+.hero h2{font-size:26px;margin-bottom:6px}
+.btn{background:var(--g);color:#fff;border:0;border-radius:14px;padding:13px 16px;font:inherit;font-weight:600;cursor:pointer;width:100%;min-height:48px}
+.btn.y{background:var(--y);color:#2b2200}
+.btn.o{background:none;color:var(--g);border:2px solid var(--g)}
+.btn:disabled{opacity:.4}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{border:1.5px solid var(--g);background:none;color:var(--g);border-radius:99px;padding:8px 14px;font:inherit;cursor:pointer;min-height:40px}
+.chip.on{background:var(--g);color:#fff}
+.msg{max-width:88%;padding:10px 13px;border-radius:16px;margin:8px 0;white-space:pre-line}
+.bot{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.me{background:var(--g2);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.row{display:flex;gap:8px;align-items:center}
+input,select{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:12px;font:inherit;min-height:48px}
+.mic{width:48px;height:48px;border-radius:50%;border:0;background:var(--y);font-size:22px;cursor:pointer;flex:none}
+.mic.rec{background:var(--r);animation:p 1s infinite}
+@keyframes p{50%{transform:scale(1.12)}}
+@media(prefers-reduced-motion:reduce){.mic.rec{animation:none}}
+.tag{display:inline-block;font-size:12px;border-radius:99px;padding:2px 10px;background:var(--line);color:var(--ink)}
+.tag.s0{background:#f6d7d1;color:#7a2112}.tag.s1{background:#fbe9b0;color:#5a4300}.tag.s2{background:#cfe3f5;color:#16405f}.tag.s3{background:#cdebd9;color:#124d2f}
+.steps{display:flex;gap:4px;margin:10px 0 4px}
+.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}.steps i.d{background:var(--g2)}
+.alert{background:#fff3cf;color:#4d3a00;border-left:6px solid var(--y);border-radius:12px;padding:12px;margin-bottom:12px}
+.mut{color:var(--mut);font-size:13px}
+.price{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.up{color:var(--g2)}.dn{color:var(--r)}
+h3{font-size:19px;margin:6px 0 8px}
+.leaf{font-size:34px}
+.sub{display:flex;gap:6px;margin-bottom:12px}
+.sub .chip{flex:1;padding:8px 4px;text-align:center}
+.stat{display:flex;gap:8px;margin-bottom:12px}.stat div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.stat b{font:700 26px 'Baloo 2';display:block}
+#lang{position:absolute;inset:0;background:var(--g);color:#fff;z-index:5;padding:40px 24px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+#lang h1{font-size:46px}
+#lang .btn{background:#fff;color:var(--g);font-size:18px;text-align:left}
+header{background:linear-gradient(135deg,var(--g),#2f7d58);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 2px,transparent 2px 14px),linear-gradient(135deg,var(--g),#2f7d58);box-shadow:0 3px 0 var(--y)}
+main{background:radial-gradient(circle at 100% 0,rgba(242,183,5,.14),transparent 45%)}
+.card{box-shadow:0 2px 0 var(--line)}
+.hero{position:relative;overflow:hidden;padding-bottom:70px;background:linear-gradient(160deg,#1d5a3f,#0f3524)}
+.hero>*:not(svg){position:relative}
+.land{position:absolute;left:0;bottom:0;width:100%;height:60px}
+.grid .tile:nth-child(1){background:linear-gradient(150deg,rgba(196,69,47,.18),var(--card))}
+.grid .tile:nth-child(2){background:linear-gradient(150deg,rgba(47,125,88,.22),var(--card))}
+.grid .tile:nth-child(3){background:linear-gradient(150deg,rgba(242,183,5,.25),var(--card))}
+.grid .tile:nth-child(4){background:linear-gradient(150deg,rgba(42,93,143,.2),var(--card))}
+#lang{background:radial-gradient(circle at 80% 8%,rgba(242,183,5,.4),transparent 40%),linear-gradient(170deg,#1d5a3f,#0c2c1e)}
+#lang::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:repeating-linear-gradient(100deg,#2f7d58 0 10px,#1d5a3f 10px 20px);clip-path:ellipse(75% 100% at 50% 100%);opacity:.7;pointer-events:none}
+nav button{position:relative}
+.bd{font-style:normal;position:absolute;top:4px;left:54%;background:var(--r);color:#fff;border-radius:99px;font-size:11px;padding:0 6px}
+#toast{position:absolute;left:16px;right:16px;top:74px;background:#17261f;color:#fff;border-radius:14px;padding:12px 14px;transform:translateY(-160%);opacity:0;visibility:hidden;pointer-events:none;transition:transform .3s,opacity .3s,visibility .3s;z-index:9;border-left:6px solid var(--y)}
+#toast.on{transform:none;opacity:1;visibility:visible}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+.sub{overflow-x:auto}.sub .chip{flex:none;white-space:nowrap;padding:8px 12px}
+.bar{display:flex;align-items:center;gap:8px;margin:8px 0}.bar span{width:92px;font-size:13px}.bar b{width:44px;text-align:right}
+.trk{flex:1;height:12px;background:var(--line);border-radius:6px;overflow:hidden}.trk u{display:block;height:100%;background:linear-gradient(90deg,var(--g2),var(--y));border-radius:6px;transition:width .4s}
+.wk{display:flex;justify-content:space-between;margin:6px 0 10px}.wk div{text-align:center;background:var(--bg);border-radius:12px;padding:8px 6px;flex:1;margin:0 2px}.wk span{display:block;font-size:22px}.wk small{color:var(--mut)}
+.av{display:flex;margin:8px 0}.av i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--y);color:#2b2200;display:grid;place-items:center;font-weight:700;margin-right:-6px;border:2px solid var(--card)}
+input[type=range]{padding:0;accent-color:var(--g)}
+.pv{width:56px;height:56px;object-fit:cover;border-radius:12px}.pv.big{width:100%;height:130px;margin:6px 0}
+.map{width:100%;height:auto;border-radius:16px;display:block;margin:6px 0}.map g:focus-visible{outline:3px solid var(--y)}
+.say{background:none;border:0;cursor:pointer;margin-left:6px;font-size:16px}
+#th{padding:6px 10px}
+</style></head>
+<body>
+<div id="app">
+ <div id="lang">
+  <div style="font-size:54px">🌾</div>
+  <h1>GramMitra</h1>
+  <p>One app for your village — complaints, farming help, schemes.</p>
+  <button class="btn" data-l="kn">ಕನ್ನಡ</button>
+  <button class="btn" data-l="hi">हिन्दी</button>
+  <button class="btn" data-l="en">English</button>
+ </div>
+ <header><div style="font-size:28px">🌾</div><h1>GramMitra<small id="who"></small></h1><button class="pill" id="th" aria-label="Toggle light or dark theme">🌓</button><button class="pill" id="role"></button></header>
+ <main id="v"></main>
+ <nav id="nav"></nav>
+ <div id="toast" role="status"></div>
+</div>
+<script>
+const T={
+en:{home:'Home',ask:'Assistant',track:'My complaints',farm:'Farm',gp:'Panchayat',hi:'Namaste, Sajju’s village',tag:'Speak your problem. We’ll file it and track it.',speak:'Speak or type your problem',ph:'e.g. Streetlight not working for 3 days',send:'Send',cm:'Report a problem',cd:'Crop doctor',eq:'Rent equipment',sc:'Find schemes',mk:'Mandi prices',empty:'No complaints yet. Use the Assistant to report one.',role_v:'Villager',role_o:'Panchayat official'},
+kn:{home:'ಮುಖಪುಟ',ask:'ಸಹಾಯಕ',track:'ನನ್ನ ದೂರುಗಳು',farm:'ಕೃಷಿ',gp:'ಪಂಚಾಯತ್',hi:'ನಮಸ್ಕಾರ, ನಮ್ಮ ಗ್ರಾಮ',tag:'ನಿಮ್ಮ ಸಮಸ್ಯೆ ಹೇಳಿ. ನಾವು ದಾಖಲಿಸಿ ಟ್ರ್ಯಾಕ್ ಮಾಡುತ್ತೇವೆ.',speak:'ನಿಮ್ಮ ಸಮಸ್ಯೆ ಹೇಳಿ ಅಥವಾ ಟೈಪ್ ಮಾಡಿ',ph:'ಉದಾ: ಬೀದಿ ದೀಪ 3 ದಿನದಿಂದ ಹೊತ್ತಿಲ್ಲ',send:'ಕಳುಹಿಸಿ',cm:'ಸಮಸ್ಯೆ ವರದಿ',cd:'ಬೆಳೆ ವೈದ್ಯ',eq:'ಯಂತ್ರ ಬಾಡಿಗೆ',sc:'ಯೋಜನೆಗಳು',mk:'ಮಂಡಿ ಬೆಲೆ',empty:'ಇನ್ನೂ ದೂರುಗಳಿಲ್ಲ. ಸಹಾಯಕದಲ್ಲಿ ವರದಿ ಮಾಡಿ.',role_v:'ಗ್ರಾಮಸ್ಥ',role_o:'ಪಂಚಾಯತ್ ಅಧಿಕಾರಿ'},
+hi:{home:'होम',ask:'सहायक',track:'मेरी शिकायतें',farm:'खेती',gp:'पंचायत',hi:'नमस्ते, हमारा गाँव',tag:'अपनी समस्या बोलिए। हम दर्ज करके ट्रैक करेंगे।',speak:'समस्या बोलें या लिखें',ph:'जैसे: 3 दिन से स्ट्रीटलाइट बंद है',send:'भेजें',cm:'समस्या दर्ज करें',cd:'फसल डॉक्टर',eq:'मशीन किराया',sc:'योजनाएँ',mk:'मंडी भाव',empty:'अभी कोई शिकायत नहीं। सहायक से दर्ज करें।',role_v:'ग्रामवासी',role_o:'पंचायत अधिकारी'}};
+const TYPES={light:{n:{en:'Streetlight',kn:'ಬೀದಿ ದೀಪ',hi:'स्ट्रीटलाइट'},d:'Electricity (GP)',k:/light|lamp|ದೀಪ|बत्ती|लाइट/i},road:{n:{en:'Road',kn:'ರಸ್ತೆ',hi:'सड़क'},d:'Public Works (GP)',k:/road|pothole|ರಸ್ತೆ|सड़क|गड्ढ/i},drain:{n:{en:'Drainage',kn:'ಚರಂಡಿ',hi:'नाली'},d:'Sanitation (GP)',k:/drain|sewage|ಚರಂಡಿ|नाली|गटर/i},water:{n:{en:'Water supply',kn:'ನೀರು ಪೂರೈಕೆ',hi:'पानी की आपूर्ति'},d:'Water Supply (GP)',k:/water|tap|leak|ನೀರು|पानी|नल/i}};
+const STAGES=['Received','Assigned','In progress','Done · proof uploaded'];
+const S={lang:'en',role:'v',tab:'home',sub:'mandi',chat:[],pend:null,seq:104,
+ cs:[{id:'GM-101',type:'drain',ward:'Ward 3',text:'Drain blocked near temple',st:1},{id:'GM-102',type:'drain',ward:'Ward 3',text:'Sewage overflow on lane',st:0},{id:'GM-103',type:'drain',ward:'Ward 3',text:'Drain smell, mosquitoes',st:0}],
+ mine:[],crop:null,eq:null,book:null,sch:{}};
+const t=k=>(T[S.lang][k]||T.en[k]||k);
+const $=s=>document.querySelector(s);
+const tn=ty=>TYPES[ty].n[S.lang];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function nav(){
+ const tabs=S.role=='v'?[['home','🏠',t('home')],['ask','🎤',t('ask')],['track','📋',t('track')],['farm','🌱',t('farm')]]:[['gp','🏛️',t('gp')],['home','🏠',t('home')],['farm','🌱',t('farm')]];
+ $('#nav').innerHTML=tabs.map(x=>`<button data-t="${x[0]}" class="${S.tab==x[0]?'on':''}"><b>${x[1]}</b>${x[2]}${x[0]=='track'&&S.badge?'<em class="bd">'+S.badge+'</em>':''}</button>`).join('');
+ $('#role').textContent=S.role=='v'?'👤 '+t('role_v'):'🏛️ '+t('role_o');
+ $('#who').textContent=S.role=='v'?'Gram: Kanakapura':'Official dashboard';
+}
+function go(tab){S.tab=tab;if(tab=='track')S.badge=0;render()}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2800)}
+function render(){nav();const f={home,ask,track,farm,gp}[S.tab];$('#v').innerHTML=f();bind();const m=$('#v');if(S.tab=='ask')m.scrollTop=m.scrollHeight}
+function home(){
+ return `<div class="hero"><svg class="land" viewBox="0 0 400 60" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="340" cy="14" r="11" fill="#f2b705"/><path d="M0 38 Q80 12 170 34 T400 24 V60 H0Z" fill="#2f7d58"/><path d="M0 50 Q100 28 200 46 T400 40 V60 H0Z" fill="#0c2c1e"/><path d="M30 60v-9M60 60v-7M90 60v-9M120 60v-7M290 60v-8M320 60v-6M350 60v-8" stroke="#f2b705" stroke-width="3" stroke-linecap="round"/></svg><h2>${t('hi')}</h2><p>${t('tag')}</p><div style="margin-top:12px"><button class="btn y" data-go="ask">🎤 ${t('speak')}</button></div></div>
+ <div class="grid">
+ <button class="tile" data-go="ask"><b>📣</b><span>${t('cm')}</span><small>Voice · photo · location</small></button>
+ <button class="tile" data-go="farm" data-s="crop"><b>🍅</b><span>${t('cd')}</span><small>Photo → possible causes</small></button>
+ <button class="tile" data-go="farm" data-s="equip"><b>🚜</b><span>${t('eq')}</span><small>Book by date</small></button>
+ <button class="tile" data-go="farm" data-s="scheme"><b>📄</b><span>${t('sc')}</span><small>Documents you need</small></button></div>
+ <div class="stat"><div><b>128</b><span class="mut">Fixed</span></div><div><b>2.4d</b><span class="mut">Avg time</span></div><div><b>342</b><span class="mut">Farmers</span></div></div><div class="card"><h3>Panchayat notice</h3><p>Water supply tomorrow 6–8 am. Please store water tonight.</p><p class="mut">Gram Panchayat office · today</p></div>
+ <p class="mut">Prototype with sample data. Try the Assistant, then switch role (top right) to act as the Panchayat official.</p>`}
+function ask(){
+ if(!S.chat.length)S.chat=[{b:1,t:'Namaste! Tell me what is wrong in your village, or ask a farming question.'}];
+ return `<div>${S.chat.map(m=>`<div class="msg ${m.b?'bot':'me'}">${esc(m.t)}${m.b?'<button class="say" data-say aria-label="Read aloud">🔊</button>':''}</div>${m.chips?`<div class="chips">${m.chips.map(c=>`<button class="chip" data-chip="${esc(c)}">${esc(c)}</button>`).join('')}</div>`:''}${m.act?`<button class="btn" data-act="${m.act}">${m.al}</button>`:''}`).join('')}</div>
+ ${S.photo?`<div class="row" style="margin-top:10px"><img class="pv" src="${S.photo}" alt="Attached photo"><span class="mut">Photo will be attached to your complaint</span></div>`:''}<div class="row" style="margin-top:12px"><button class="mic" id="mic" aria-label="Speak">🎤</button><button class="mic" id="cam" aria-label="Add photo" style="background:var(--card);border:1.5px solid var(--line)">📷</button><input type="file" id="ph" accept="image/*" capture="environment" hidden><input id="inp" placeholder="${esc(t('ph'))}"><button class="chip on" id="send">${t('send')}</button></div>`}
+function say(b,tx,x){S.chat.push(Object.assign({b,t:tx},x||{}))}
+function classify(tx){for(const k in TYPES)if(TYPES[k].k.test(tx))return k;return null}
+function submit(tx){
+ if(!tx.trim())return;say(0,tx);
+ const ty=classify(tx);
+ if(ty){S.pend={ty,tx,photo:S.photo};S.photo=null;say(1,`Understood: ${tn(ty)} problem.\nWhich ward are you in?`,{chips:['Ward 1','Ward 2','Ward 3','Ward 4']})}
+ else if(/crop|leaf|tomato|disease|ಬೆಳೆ|फसल|पत्ता/i.test(tx)){say(1,'That sounds like a crop question. Open Farm → Crop doctor and pick a photo.',{act:'crop',al:'🍅 Open Crop doctor'})}
+ else say(1,'I could not tell if this is a complaint. Is it about road, streetlight, drainage or water?',{chips:['Streetlight not working','Road has potholes','Drain is blocked','No water in tap']});
+ render()}
+function chip(c){
+ if(/^Ward/.test(c)&&S.pend){S.pend.ward=c;say(0,c);say(1,`Please confirm:\n${tn(S.pend.ty)} · ${c}\n“${S.pend.tx}”\nGoes to: ${TYPES[S.pend.ty].d}`,{act:'file',al:'✓ Confirm and file complaint'});render()}
+ else submit(c)}
+function file(){
+ const p=S.pend;if(!p)return;const id='GM-'+(S.seq++);const c={id,type:p.ty,ward:p.ward,text:p.tx,st:0,mine:1,photo:p.photo};
+ S.cs.unshift(c);S.mine.unshift(c);S.pend=null;toast('✓ Filed '+id+' · sent to '+TYPES[c.type].d);
+ say(1,`Filed. Your tracking number is ${id}.\nYou will be notified when the Panchayat acts on it.`,{act:'track',al:'📋 Track it'});render()}
+function track(){
+ if(!S.mine.length)return `<div class="card"><p>${t('empty')}</p></div><button class="btn" data-go="ask">🎤 ${t('cm')}</button>`;
+ return S.mine.map(card).join('')}
+function card(c){return `<div class="card"><div class="row"><b class="hd" style="font-size:20px;flex:1">${c.id}</b><span class="tag s${c.st}">${STAGES[c.st]}</span></div><p>${tn(c.type)} · ${c.ward}</p><p class="mut">${esc(c.text)}</p>${c.photo?`<img class="pv big" src="${c.photo}" alt="Complaint photo">`:''}<div class="steps">${STAGES.map((_,i)=>`<i class="${i<=c.st?'d':''}"></i>`).join('')}</div><p class="mut">${TYPES[c.type].d}</p></div>`}
+function gp(){
+ const n=k=>S.cs.filter(c=>c.st==k).length,cnt={};
+ S.cs.filter(c=>c.st<3).forEach(c=>{const k=c.type+'|'+c.ward;cnt[k]=(cnt[k]||0)+1});
+ const al=Object.entries(cnt).filter(e=>e[1]>=3).map(e=>{const[ty,w]=e[0].split('|');return `<div class="alert"><b>⚠️ Possible recurring ${tn(ty).toLowerCase()} problem in ${w}</b><br>${e[1]} open complaints. Review the area; this is a pattern flag, not a prediction.</div>`}).join('');
+ return `<div class="stat"><div><b>${S.cs.length}</b><span class="mut">Total</span></div><div><b>${n(0)}</b><span class="mut">New</span></div><div><b>${n(3)}</b><span class="mut">Done</span></div></div>${vmap()}${chart()}${al}
+ <h3>Complaints${S.wf?' · '+S.wf+' <button class="chip" data-ward="">Clear</button>':''}</h3>${S.cs.filter(c=>!S.wf||c.ward==S.wf).map(c=>card(c)+(c.st<3?`<button class="btn o" style="margin:-4px 0 12px" data-adv="${c.id}">${['Assign worker','Mark in progress','Upload completion proof'][c.st]}</button>`:'')).join('')}`}
+function vmap(){const W=[['Ward 1',55,60],['Ward 2',185,42],['Ward 3',105,128],['Ward 4',235,118]];return `<div class="card"><h3>Village map</h3><svg class="map" viewBox="0 0 300 180" role="group" aria-label="Village map with complaint pins"><rect width="300" height="180" rx="16" fill="#d5e6c8"/><path d="M0 160Q80 120 150 156T300 126" stroke="#7fb4de" stroke-width="12" fill="none"/><path d="M15 105L285 72" stroke="#fff" stroke-width="7" stroke-linecap="round"/><rect x="20" y="14" width="60" height="30" rx="6" fill="#e9dc9c"/><rect x="215" y="150" width="60" height="22" rx="6" fill="#e9dc9c"/>${W.map(w=>{const n=S.cs.filter(c=>c.ward==w[0]&&c.st<3).length,col=n>=3?'#c4452f':n?'#f2b705':'#2f7d58';return `<g data-ward="${w[0]}" tabindex="0" role="button" aria-label="${w[0]}: ${n} open complaints" style="cursor:pointer"><circle cx="${w[1]}" cy="${w[2]}" r="${15+n*3}" fill="${col}" fill-opacity=".35"/><circle cx="${w[1]}" cy="${w[2]}" r="13" fill="${col}"/><text x="${w[1]}" y="${w[2]+5}" text-anchor="middle" fill="${n&&n<3?'#2b2200':'#fff'}" font-size="14" font-weight="700">${n}</text><text x="${w[1]}" y="${w[2]+30}" text-anchor="middle" font-size="10" fill="#17261f">${w[0]}</text></g>`}).join('')}</svg><p class="mut">Tap a ward to filter the list. Red means 3 or more open complaints.</p></div>`}
+function chart(){const k=Object.keys(TYPES),n=k.map(x=>S.cs.filter(c=>c.type==x).length),mx=Math.max(...n,1);return `<div class="card"><h3>Complaints by type</h3>${k.map((x,i)=>`<div class="bar"><span>${tn(x)}</span><div class="trk"><u style="width:${n[i]/mx*100}%"></u></div><b>${n[i]}</b></div>`).join('')}</div>`}
+function sell(){const o=[['Ramesh',12],['Savitha',8],['Imran',15],['Lakshmi',5]],q=+S.qty||0,tot=40+(S.join?q:0),pc=Math.min(100,tot/60*100);return `<div class="card"><h3>🍅 Tomato harvest pool · next week</h3><p class="mut">Farmers share expected quantities voluntarily so an FPO can plan one bulk pickup.</p><div class="av">${o.map(f=>`<i title="${f[0]}">${f[0][0]}</i>`).join('')}${S.join?'<i style="background:var(--g2);color:#fff">You</i>':''}</div><div class="bar"><span>Pooled</span><div class="trk"><u style="width:${pc}%"></u></div><b>${tot}/60</b></div><p class="mut">Quintals expected. A full lorry (60 qtl) unlocks the FPO bulk offer.</p></div><div class="card"><h3>Add your harvest: ${q} qtl</h3><input type="range" min="0" max="30" value="${q}" data-qty aria-label="Quintals"><div class="price"><span>Local mandi</span><b>₹2,200/qtl</b></div><div class="price"><span>FPO bulk offer (sample)</span><b class="up">₹2,350/qtl</b></div><button class="btn" data-join="1" ${S.join||!q?'disabled':''}>${S.join?'✓ You joined the pool':'Join the pool'}</button></div>`}
+const MANDI=[['Tomato',2200,'+120'],['Onion',1650,'-40'],['Maize',2090,'+15'],['Ragi',3846,'+30'],['Chilli (dry)',14500,'-300']];
+const CROPS={tomato:{i:'🍅',n:'Tomato leaf with dark spots',c:['Early blight (fungal)','Leaf spot from humid weather','Nutrient stress'],p:['Remove badly spotted leaves','Avoid watering leaves in the evening','Do not spray anything until an expert confirms']},maize:{i:'🌽',n:'Maize with yellow streaks',c:['Nitrogen shortage','Maize streak virus (spread by insects)','Waterlogging'],p:['Check drainage in the field','Look under leaves for insects','Ask expert before adding fertiliser']},chilli:{i:'🌶️',n:'Chilli with curled leaves',c:['Leaf curl (mites or thrips)','Heat stress','Herbicide drift'],p:['Isolate affected plants','Check leaf undersides','Expert should confirm before any spray']}};
+const EQ=[['🚜','Tractor (45 HP)','₹800/hr','Gram Panchayat'],['🌀','Rotavator','₹600/hr','Raitha Samparka Kendra'],['🌾','Combine harvester','₹2,200/hr','Custom Hiring Centre']];
+function farm(){
+ const tabs=[['mandi',t('mk')],['crop',t('cd')],['equip',t('eq')],['scheme',t('sc')],['sell','🤝 Sell together']];
+ return `<div class="sub" role="tablist">${tabs.map(x=>`<button class="chip ${S.sub==x[0]?'on':''}" data-sub="${x[0]}">${x[1]}</button>`).join('')}</div>`+({mandi:mandi,crop:crop,equip:equip,scheme:scheme,sell:sell})[S.sub]()}
+function mandi(){return `<div class="card"><h3>${t('mk')}</h3>${MANDI.map(m=>`<div class="price"><span>${m[0]}</span><span><b>₹${m[1].toLocaleString('en-IN')}</b>/qtl <span class="${m[2][0]=='+'?'up':'dn'}">${m[2]}</span></span></div>`).join('')}<p class="mut" style="margin-top:8px">Sample data. A live version would use official market feeds.</p></div>
+<div class="card"><h3>Weather</h3><div class="wk">${[['Mon','☀️',31],['Tue','⛅',30],['Wed','🌦️',27],['Thu','🌧️',25],['Fri','⛅',28]].map(d=>`<div><small>${d[0]}</small><span>${d[1]}</span><b>${d[2]}°</b></div>`).join('')}</div><p>Rain likely Thursday. Delay spraying and harvesting if you can.</p></div>`}
+function crop(){
+ const pick=Object.entries(CROPS).map(([k,v])=>`<button class="tile" data-crop="${k}"><b class="leaf">${v.i}</b><small>${v.n}</small></button>`).join('');
+ let r='';if(S.crop){const c=CROPS[S.crop];r=`<div class="card"><h3>${c.i} Possible causes</h3><ol style="padding-left:20px">${c.c.map(x=>`<li>${x}</li>`).join('')}</ol><h3>Safe first steps</h3><ul style="padding-left:20px">${c.p.map(x=>`<li>${x}</li>`).join('')}</ul><p class="mut" style="margin:8px 0">Not a confirmed diagnosis. Uncertain cases go to an agricultural expert.</p><button class="btn" data-expert="1">${S.sent?'✓ Sent to expert':'Send to agricultural expert'}</button></div>`}
+ return `<p class="mut" style="margin-bottom:8px">Pick a sample photo (demo). A real build would upload from the camera.</p><div class="grid" style="grid-template-columns:repeat(3,1fr)">${pick}</div>${r}`}
+function equip(){
+ let b=S.book?`<div class="card" style="border-color:var(--g2)"><b>✓ Booked: ${S.book.n}</b><p>${S.book.d} · Booking BK-${S.seq+40}</p><p class="mut">Confirmation sent. You can cancel until the day before.</p></div>`:'';
+ return b+EQ.map((e,i)=>`<div class="card"><div class="row"><span style="font-size:32px">${e[0]}</span><div style="flex:1"><b>${e[1]}</b><br><span class="mut">${e[3]}</span></div><b>${e[2]}</b></div>${S.eq==i?`<div class="row" style="margin-top:10px"><input type="date" id="dt"><button class="chip on" data-book="${i}">Book</button></div>`:`<button class="btn o" style="margin-top:10px" data-eq="${i}">Check availability</button>`}</div>`).join('')}
+function scheme(){
+ const q=S.sch,done=q.land!=null&&q.size!=null;
+ const opt=(k,a)=>a.map(([v,l])=>`<button class="chip ${q[k]===v?'on':''}" data-q="${k}:${v}">${l}</button>`).join('');
+ let res='';if(done){const L=[];if(q.land&&q.size)L.push(['PM-KISAN','Income support for small and marginal land-owning farmers','Aadhaar, land record, bank passbook']);if(q.land)L.push(['PM Fasal Bima (crop insurance)','Cover against crop loss','Land record or sowing certificate, bank passbook']);L.push(['Kisan Credit Card','Low-interest farm credit','ID, land record or tenancy proof, photo']);
+ res=`<h3>Potentially relevant</h3>${L.map(s=>`<div class="card"><b>${s[0]}</b><p>${s[1]}</p><p class="mut">Documents: ${s[2]}</p></div>`).join('')}<p class="mut">Potential eligibility only. Confirm on the official portal or at the Panchayat office before applying.</p>`}
+ return `<div class="card"><h3>Do you own farm land?</h3><div class="chips">${opt('land',[[true,'Yes'],[false,'No, I rent']])}</div><h3>Land size</h3><div class="chips">${opt('size',[[true,'Under 2 hectares'],[false,'Larger']])}</div></div>${res}`}
+function bind(){
+ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(b.dataset.s)S.sub=b.dataset.s;go(b.dataset.go)});
+ document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>go(b.dataset.t));
+ document.querySelectorAll('[data-chip]').forEach(b=>b.onclick=()=>chip(b.dataset.chip));
+ document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;if(a=='file')file();else if(a=='track')go('track');else{S.sub='crop';go('farm')}});
+ document.querySelectorAll('[data-adv]').forEach(b=>b.onclick=()=>{const c=S.cs.find(x=>x.id==b.dataset.adv);if(c.st<3){c.st++;toast('🔔 Villager notified · '+c.id+': '+STAGES[c.st]);if(c.mine)S.badge=(S.badge||0)+1}render()});
+ document.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{S.sub=b.dataset.sub;render()});
+ document.querySelectorAll('[data-crop]').forEach(b=>b.onclick=()=>{S.crop=b.dataset.crop;S.sent=0;render()});
+ document.querySelectorAll('[data-expert]').forEach(b=>b.onclick=()=>{S.sent=1;render()});
+ document.querySelectorAll('[data-eq]').forEach(b=>b.onclick=()=>{S.eq=+b.dataset.eq;render()});
+ document.querySelectorAll('[data-book]').forEach(b=>b.onclick=()=>{const d=$('#dt').value;if(!d){$('#dt').focus();return}S.book={n:EQ[b.dataset.book][1],d};S.eq=null;render()});
+ document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const[k,v]=b.dataset.q.split(':');S.sch[k]=v=='true';render()});
+ document.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>{if(!window.speechSynthesis)return;const u=new SpeechSynthesisUtterance(b.parentNode.firstChild.textContent);u.lang={en:'en-IN',kn:'kn-IN',hi:'hi-IN'}[S.lang];speechSynthesis.cancel();speechSynthesis.speak(u)});document.querySelectorAll('[data-ward]').forEach(g=>{g.onclick=()=>{S.wf=g.dataset.ward||null;render()};g.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();g.onclick()}}});document.querySelectorAll('[data-qty]').forEach(r=>r.onchange=()=>{S.qty=r.value;render()});document.querySelectorAll('[data-join]').forEach(b=>b.onclick=()=>{S.join=1;toast('✓ Added to the tomato pool');render()});const i=$('#inp');if(i){i.onkeydown=e=>{if(e.key=='Enter')go2()};$('#send').onclick=go2;$('#cam').onclick=()=>$('#ph').click();$('#ph').onchange=e=>{const f=e.target.files[0];if(f){S.photo=URL.createObjectURL(f);render()}};
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  $('#mic').onclick=()=>{if(!SR){i.focus();i.placeholder='Voice not supported here. Type instead.';return}
+   const r=new SR();r.lang={en:'en-IN',kn:'kn-IN',hi:'hi-IN'}[S.lang];$('#mic').classList.add('rec');
+   r.onresult=e=>{i.value=e.results[0][0].transcript;go2()};r.onend=()=>$('#mic').classList.remove('rec');r.onerror=()=>$('#mic').classList.remove('rec');try{r.start()}catch(_){}}}
+ function go2(){const v=i.value;i.value='';submit(v)}}
+document.querySelectorAll('#lang .btn').forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;document.documentElement.lang=S.lang;$('#lang').remove();S.chat=[];render()});
+$('#role').onclick=()=>{S.role=S.role=='v'?'o':'v';S.tab=S.role=='o'?'gp':'home';render()};
+$('#th').onclick=()=>{const r=document.documentElement,d=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))=='dark';r.dataset.theme=d?'light':'dark'};
+</script></body></html>
